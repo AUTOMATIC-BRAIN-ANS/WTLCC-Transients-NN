@@ -263,7 +263,7 @@ class MatrixData(torch.utils.data.Dataset):
             rss = []
             for slc in file_data:
                 for start in range(0, len(slc[signal_names[0]]) - local_config["correlation_len"], local_config["correlation_step"]):
-                    samples_per_split = 2*frames + 1
+                    samples_per_split = local_config["correlation_len"]//local_config["time_shifts"] + 1
                     corr_matrix = np.zeros((local_config["time_shifts"], 2*frames))
                     part_signal_1 = slc[signal_names[0]][start:start + local_config["correlation_len"]]
                     mid_point = len(part_signal_1)//2
