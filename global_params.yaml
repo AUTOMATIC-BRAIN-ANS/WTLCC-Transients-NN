@@ -1,0 +1,31 @@
+global:
+  gpu: True
+
+dataset:
+  shuffle: True
+  dataset_num_workers: 0
+
+training:
+  report_training_every_n_batches: 50
+  
+  log_model_params: null
+  #Can be "all", "gradients", "parameters" or null
+
+  log_training_metrics: False
+  log_training_stride: 1
+
+  log_plots_at_end: True
+  log_additional_plots: True
+  number_of_training_set_plots: 1
+  number_of_val_set_plots: 1
+  plot_log_stride: 5
+
+
+  validate_every_n_epochs: True
+  validation_stride: 1
+
+  checkpointing: True
+  checkpoint_every: 5
+
+  save_on_training_end: True
+  save_mode: "torch"

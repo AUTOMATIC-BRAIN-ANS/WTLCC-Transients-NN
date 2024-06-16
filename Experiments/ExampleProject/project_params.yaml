@@ -1,0 +1,37 @@
+ExampleExperiment:
+  seed: 42
+  notes: "Initial tests"
+  tags: ["testing", "cnn"]
+
+  config:
+    dataset:
+      name: "MNIST"
+      transforms: ["ToTensor"]
+      transform_params:
+        ToTensor: null
+      download: True
+      batch_size: 128
+
+    model:
+      architecture: "CNN"
+      params:
+        kernels: [16, 32]
+        classes: 10
+
+    training:
+      criterion: "CELoss"
+      criterion_params: null
+
+      optimizer: "Adam"
+      optimizer_params: null
+
+      lr_strategy: null
+      lr: 0.005
+      lr_params: null
+
+      epochs: 10
+
+      accumulate_grads: True
+      batch_acumulator: 16
+      
+      logging_metrics: ["Accuracy"]

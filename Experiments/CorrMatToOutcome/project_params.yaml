@@ -1,0 +1,270 @@
+InitialCNN:
+  seed: 42
+  notes: "Initial test"
+  tags: ["testing", "cnn"]
+
+  config:
+    dataset:
+      name: "MatrixData"
+      transforms: null
+      transform_params: null
+      source_files: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/divided"
+      label_csv: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/DANE.csv"
+      target_key: "POOR1 (discharge)"
+      label_key: "PATIENT"
+      time_column: "DateTime"
+      raw_to_processed_config:
+        columns: ["ICP", "BRS"]
+
+        days: 5
+        first_days: False #Otherwise last min_file_length minutes
+
+        correlation_len: 720
+        correlation_step: 60
+        time_shifts: 30
+        no_frames: 120
+
+      path_to_datasets: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/datasets"
+      pad: null
+      batch_size: 256
+
+    model:
+      architecture: "CNN"
+      load_weights: False
+      params:
+        num_classes: 1
+
+    training:
+      criterion: "BCELoss"
+      criterion_params: null
+
+      optimizer: "Adam"
+      optimizer_params: null
+
+      early_stopping: True
+      early_stopping_params:
+        patience: 25
+ 
+      clip_grads: False
+      clip_value: 1.2
+
+      lr_strategy: null
+      lr: 0.001
+      lr_params: null
+
+      epochs: 100
+
+      accumulate_grads: True
+      batch_acumulator: 16
+      
+      logging_metrics: ["Accuracy", "BCELoss", "F1", "Precision", "Recall", "ROC_AUC"]
+      plots_to_log: null
+
+
+InitialViT:
+  seed: 42
+  notes: "Initial ViT test"
+  tags: ["testing", "ViT"]
+
+  config:
+    dataset:
+      name: "MatrixData"
+      transforms: null
+      transform_params: null
+      source_files: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/divided"
+      label_csv: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/DANE.csv"
+      target_key: "POOR1 (discharge)"
+      label_key: "PATIENT"
+      time_column: "DateTime"
+      raw_to_processed_config:
+        columns: ["ICP", "BRS"]
+
+        days: 5
+        first_days: False #Otherwise last min_file_length minutes
+
+        correlation_len: 720
+        correlation_step: 60
+        time_shifts: 60
+        no_frames: 60
+
+      path_to_datasets: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/datasets"
+      pad: 11
+      batch_size: 256
+
+    model:
+      architecture: "ViT"
+      load_weights: False
+      params:
+        image_size: 121
+        patch_size: 11
+        num_classes: 1
+        channels: 1
+        dim: 128
+        depth: 4
+        heads: 8
+        mlp_dim: 256
+        dropout: 0.4
+        emb_dropout: 0.2
+
+    training:
+      criterion: "BCELoss"
+      criterion_params: null
+
+      optimizer: "Adam"
+      optimizer_params: null
+
+      early_stopping: True
+      early_stopping_params:
+        patience: 25
+ 
+      clip_grads: False
+      clip_value: 1.2
+
+      lr_strategy: null
+      lr: 0.001
+      lr_params: null
+
+      epochs: 100
+
+      accumulate_grads: True
+      batch_acumulator: 16
+      
+      logging_metrics: ["Accuracy", "BCELoss", "F1", "Precision", "Recall", "ROC_AUC"]
+      plots_to_log: null
+
+CTBICNN:
+  seed: 42
+  notes: "Initial test"
+  tags: ["testing", "cnn", "ctbi"]
+
+  config:
+    dataset:
+      name: "MatrixData"
+      transforms: null
+      transform_params: null
+      source_files: "E:/Projekty/Sonata_repo/Data/Ctbi/divided"
+      label_csv: "E:/Projekty/Sonata_repo/Data/Ctbi/metadata.csv"
+      target_key: "Hospital.SixMonthOutcomeGOS_poor" # 'Hospital.DischargeStatus' 
+      label_key: "ID"
+      time_column: "DateTime"
+      raw_to_processed_config:
+        columns: ["ICP", "HRV_LFHF"]
+
+        remove_craniectomy: True
+        craniectomy_key: "craniectomy"
+        craniectomy_date_keys: ["data", "godzina"]
+
+        days: 3
+        first_days: True #Otherwise last min_file_length minutes
+
+        correlation_len: 1080
+        correlation_step: 60
+        time_shifts: 30
+        no_frames: 120
+
+      path_to_datasets: "E:/Projekty/Sonata_repo/Data/Wieloparametrowe/datasets"
+      pad: null
+      batch_size: 256
+
+    model:
+      architecture: "CNN"
+      load_weights: False
+      params:
+        num_classes: 1
+
+    training:
+      criterion: "BalancedBCELoss"
+      criterion_params: 
+        class_weights: [1, 3]
+
+      optimizer: "Adam"
+      optimizer_params: null
+
+      early_stopping: True
+      early_stopping_params:
+        patience: 25
+ 
+      clip_grads: False
+      clip_value: 1.2
+
+      lr_strategy: null
+      lr: 0.0001
+      lr_params: null
+
+      epochs: 1000
+
+      accumulate_grads: True
+      batch_acumulator: 16
+      
+      logging_metrics: ["Accuracy", "BCELoss", "F1", "Precision", "Recall", "ROC_AUC", "Per_patient_scores"]
+      plots_to_log: null
+
+
+
+BOTHCNN:
+  seed: 42
+  notes: "Initial test"
+  tags: ["testing", "cnn", "ctbi"]
+
+  config:
+    dataset:
+      name: "MatrixData"
+      saving: False
+      transforms: null
+      transform_params: null
+      source_files: "C:/Sonata_wieloparametrowe/Data/ctbi_razem/divided_location"
+      label_csv: "C:/Sonata_wieloparametrowe/Data/ctbi_razem/metadata.csv"
+      target_key: "Hospital.SixMonthOutcomeGOS_poor" # 'Hospital.DischargeStatus' 
+      label_key: "ID"
+      time_column: "DateTime"
+      raw_to_processed_config:
+        columns: ["ICP", "HRV_LFHF"]
+
+        remove_craniectomy: True
+        craniectomy_key: "craniectomy"
+        craniectomy_date_keys: ["data", "godzina"]
+
+        days: 3
+        first_days: True #Otherwise last min_file_length minutes
+
+        correlation_len: 1080
+        correlation_step: 60
+        time_shifts: 30
+        no_frames: 120
+
+      path_to_datasets: "C:/Sonata_wieloparametrowe/Data/datasets"
+      pad: null
+      batch_size: 256
+
+    model:
+      architecture: "CNN"
+      load_weights: False
+      params:
+        num_classes: 1
+
+    training:
+      criterion: "BalancedBCELoss"
+      criterion_params: 
+        class_weights: [1, 3]
+
+      optimizer: "Adam"
+      optimizer_params: null
+
+      early_stopping: True
+      early_stopping_params:
+        patience: 15
+ 
+      clip_grads: False
+      clip_value: 1.2
+
+      lr_strategy: null
+      lr: 0.0001
+      lr_params: null
+
+      epochs: 1000
+
+      accumulate_grads: True
+      batch_acumulator: 16
+      
+      logging_metrics: ["Accuracy", "BCELoss", "F1", "Precision", "Recall", "ROC_AUC", "Per_patient_scores"]
+      plots_to_log: null
